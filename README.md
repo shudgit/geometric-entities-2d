@@ -38,5 +38,5 @@ Run the test program:
 
 It should print:
 ```
-Test successful.
+Compilation was successful.
 ```

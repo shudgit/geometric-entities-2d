@@ -3,6 +3,6 @@ using namespace std;
 
 int main()
 {
-	cout << "Test successful." << endl;
+	cout << "Compilation was successful." << endl;
 	return 0;
 }

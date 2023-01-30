@@ -1,4 +1,0 @@
-class AttributedHalfSeg2D
-{
-
-};

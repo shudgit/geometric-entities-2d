@@ -1,4 +1,0 @@
-class HalfSeg2D
-{
-
-};

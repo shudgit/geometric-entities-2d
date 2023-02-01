@@ -1,7 +1,7 @@
 #include "Segment2D.h"
 #include <cmath>
 
-Segment2D::Segment2D()
+Segment2D::Segment2D()		// Created default constructor so that HalfSegment2D works.
 {
 }
 
@@ -17,7 +17,7 @@ Segment2D::Segment2D(SimplePoint2D l, SimplePoint2D r)
 		this->l = r;
 		this->r = l;
 	}
-	this->length = (sqrt(pow((this->r.y - this->l.y), 2) + pow((this->r.x - this->l.x), 2)));
+	this->length = (this->r.y - this->l.y) * (this->r.y - this->l.y) + (this->r.x - this->l.x) * (this->r.x - this->l.x);		// no sqrt because not implemented
 }
 
 void Segment2D::operator=(Segment2D s)
@@ -42,7 +42,6 @@ bool Segment2D::operator<(Segment2D s)
 		return true;
 	else
 		return false;
-
 }
 
 bool Segment2D::operator<=(Segment2D s)

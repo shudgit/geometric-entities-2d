@@ -5,8 +5,10 @@ struct AttributedHalfSegment2D
 	HalfSegment2D hs;
 	bool above;
 	AttributedHalfSegment2D(HalfSegment2D hs, bool above);
+	AttributedHalfSegment2D(const AttributedHalfSegment2D& ahs);
 	void operator=(AttributedHalfSegment2D ahs);
 	bool operator==(AttributedHalfSegment2D ahs);
 	bool operator<(AttributedHalfSegment2D ahs);
 	bool operator<=(AttributedHalfSegment2D ahs);
+	~AttributedHalfSegment2D();
 };

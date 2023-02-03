@@ -5,9 +5,11 @@ struct Segment2D
 	SimplePoint2D l, r;
 	Number length;
 	Segment2D();
+	Segment2D(const Segment2D& s);
 	Segment2D(SimplePoint2D l, SimplePoint2D r);
 	void operator=(Segment2D p);
 	bool operator==(Segment2D p);
 	bool operator<(Segment2D p);
 	bool operator<=(Segment2D p);
+	~Segment2D();
 };

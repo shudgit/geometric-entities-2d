@@ -6,6 +6,12 @@ SimplePoint2D::SimplePoint2D()
 	this->y = 0;
 }
 
+SimplePoint2D::SimplePoint2D(const SimplePoint2D& p)
+{
+	this->x = p.x;
+	this->y = p.y;
+}
+
 SimplePoint2D::SimplePoint2D(Number x, Number y)
 {
 	this->x = x;
@@ -34,7 +40,6 @@ bool SimplePoint2D::operator<(SimplePoint2D p)
 		return true;
 	else
 		return false;
-		
 }
 
 bool SimplePoint2D::operator<=(SimplePoint2D p)
@@ -43,4 +48,10 @@ bool SimplePoint2D::operator<=(SimplePoint2D p)
 		return true;
 	else
 		return false;
+}
+
+SimplePoint2D::~SimplePoint2D()
+{
+	~this->x();
+	~this->y();
 }

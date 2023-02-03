@@ -8,6 +8,12 @@ AttributedHalfSegment2D::AttributedHalfSegment2D(HalfSegment2D hs, bool above)
 	this->above = above;
 }
 
+AttributedHalfSegment2D::AttributedHalfSegment2D(const AttributedHalfSegment2D& ahs)
+{
+	this->hs = ahs.hs;
+	this->above = ahs.above;
+}
+
 void AttributedHalfSegment2D::operator=(AttributedHalfSegment2D ahs)
 {
 	this->hs.s = ahs.hs.s;
@@ -117,4 +123,9 @@ bool AttributedHalfSegment2D::operator<=(AttributedHalfSegment2D ahs)
 		return true;
 	else
 		return false;
+}
+
+AttributedHalfSegment2D::~AttributedHalfSegment2D()
+{
+	~this->hs();
 }

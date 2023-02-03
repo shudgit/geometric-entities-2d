@@ -6,6 +6,12 @@ HalfSegment2D::HalfSegment2D()		// Default Constructor so that AttributedHalfSeg
 {
 }
 
+HalfSegment2D::HalfSegment2D(const HalfSegment2D& hs)
+{
+	this->s = hs.s;
+	this->isLeft = hs.isLeft;
+}
+
 HalfSegment2D::HalfSegment2D(Segment2D s, bool isLeft)
 {
 	this->s = s;
@@ -121,4 +127,9 @@ bool HalfSegment2D::operator<=(HalfSegment2D hs)
 		return true;
 	else
 		return false;
+}
+
+HalfSegment2D::~HalfSegment2D()
+{
+	~this->s();
 }

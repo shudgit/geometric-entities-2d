@@ -5,6 +5,13 @@ Segment2D::Segment2D()		// Created default constructor so that HalfSegment2D wor
 {
 }
 
+Segment2D::Segment2D(const Segment2D& s)
+{
+	this->l = s.l;
+	this->r = s.r;
+	this->length = s.length;
+}
+
 Segment2D::Segment2D(SimplePoint2D l, SimplePoint2D r)
 {
 	if (l < r)
@@ -50,4 +57,11 @@ bool Segment2D::operator<=(Segment2D s)
 		return true;
 	else
 		return false;
+}
+
+Segment2D::~Segment2D()
+{
+	~this->l();
+	~this->r();
+	~this->length();
 }

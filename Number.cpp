@@ -32,26 +32,26 @@ Number::Impl::~Impl()
 // Constructors/Deconstructor
 Number::Number() : pimpl( new Impl()) 
 {
-    cout << "Default Constructor" << endl;
+//    cout << "Default Constructor" << endl;
 }
 Number::Number(const double& d) : pimpl( new Impl(d))
 {
-    cout << "Double Constructor for " << d << endl;
+//    cout << "Double Constructor for " << d << endl;
 }
 Number::Number(const Number& n) : pimpl( new Impl(n))
 {
-    cout << "Copy Constructor for " << n << endl;
+//    cout << "Copy Constructor for " << n << endl;
 }
 Number::Number(Number&& n) : pimpl(move(n.pimpl))
 {
-    cout << "Move Constructor for " << n << endl;
+//    cout << "Move Constructor for " << n << endl;
 }
 Number::~Number()
 {
     if (this->pimpl != nullptr)
-        cout << "Deconstructing " << *this << endl;
+        cout << "";
     else
-        cout << "Deconstructing nullptr" << endl;
+        cout << "";
 }
 
 // Arithmetic Operators

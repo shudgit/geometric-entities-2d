@@ -1,2 +1,2 @@
 default:
-	g++ *.cpp -o test -lgmpxx
+	g++ *.cpp -o test -lgmpxx -lgmp

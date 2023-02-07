@@ -9,91 +9,104 @@ HalfSegment2D::HalfSegment2D()		// Default Constructor so that AttributedHalfSeg
 HalfSegment2D::HalfSegment2D(const HalfSegment2D& hs)
 {
 	this->s = hs.s;
-	this->isLeft = hs.isLeft;
+	this->isDominatingPointLeft = hs.isDominatingPointLeft;
 }
 
-HalfSegment2D::HalfSegment2D(Segment2D s, bool isLeft)
+HalfSegment2D::HalfSegment2D(Segment2D s, bool isDominatingPointLeft)
 {
 	this->s = s;
-	this->isLeft = isLeft;
+	this->isDominatingPointLeft = isDominatingPointLeft;
+}
+
+HalfSegment2D::HalfSegment2D(HalfSegment2D&& hs)
+{
+	this->s = std::move(hs.s);
+	this->isDominatingPointLeft = std::move(hs.isDominatingPointLeft);
 }
 
 void HalfSegment2D::operator=(HalfSegment2D hs)
 {
 	this->s = hs.s;
-	this->isLeft = hs.isLeft;
+	this->isDominatingPointLeft = hs.isDominatingPointLeft;
 }
 
 bool HalfSegment2D::operator==(HalfSegment2D hs)
 {
-	if ((*this).s == hs.s && (*this).isLeft == hs.isLeft)
-		return true;
-	else
-		return false;
+	return ((*this).s == hs.s && (*this).isDominatingPointLeft == hs.isDominatingPointLeft);
+}
+
+bool HalfSegment2D::operator>=(const HalfSegment2D hs)
+{
+	return (*this > hs || *this == hs);
+}
+
+bool HalfSegment2D::operator>(const HalfSegment2D hs)
+{
+	return !((*this) < hs);
 }
 
 bool HalfSegment2D::operator<(HalfSegment2D hs)
 {
 	// Case 1: 
-	if (this->isLeft)		// this is left half segment
+	if (this->isDominatingPointLeft)		// this is left half segment
 	{
-		if (hs.isLeft)		// hs is left half segment
+		if (hs.isDominatingPointLeft)		// hs is left half segment
 		{
-			if (this->s.l < hs.s.l)									// if dominating point is less than
+			if (this->s.leftEndPoint < hs.s.leftEndPoint)									// if dominating point is less than
 				return true;
-			else if (hs.s.l < this->s.l)							// if dominating point is greater than 
+			else if (hs.s.leftEndPoint < this->s.leftEndPoint)							// if dominating point is greater than 
 				return false;
 			// if equal, move on to next case
 		}
 		else				// hs is right half segment
 		{
-			if (this->s.l < hs.s.r)             // if dominating point is less than
+			if (this->s.leftEndPoint < hs.s.rightEndPoint)             // if dominating point is less than
 				return true;
-			else if (hs.s.r < this->s.l)        // if dominating point is greater than
+			else if (hs.s.rightEndPoint < this->s.leftEndPoint)        // if dominating point is greater than
 				return false;
 			// if equal, move on to next case
 		}
 	}
 	else				  // this is right half segment
 	{
-		if (hs.isLeft)	  // hs is left half segment
+		if (hs.isDominatingPointLeft)	  // hs is left half segment
 		{
-			if (this->s.r < hs.s.l)              // if dominating point is less than
+			if (this->s.rightEndPoint < hs.s.leftEndPoint)              // if dominating point is less than
 				return true;
-			else if (hs.s.l < this->s.r)         // if dominating point is greater than
+			else if (hs.s.leftEndPoint < this->s.rightEndPoint)         // if dominating point is greater than
 				return false;
 			// if equal, move on to next case
 		}
 		else             // hs is right half segment
 		{
-			if (this->s.r < hs.s.r)             // if dominating point is less than
+			if (this->s.rightEndPoint < hs.s.rightEndPoint)             // if dominating point is less than
 				return true;
-			else if (hs.s.r < this->s.r)        // if dominating point is greater than
+			else if (hs.s.rightEndPoint < this->s.rightEndPoint)        // if dominating point is greater than
 				return false;
 			// if equal, move on to next case
 		}
 	}
 
 	// Case 2a:
-	if (!this->isLeft && hs.isLeft)			// this is right half segment and hs is left half segment
+	if (!this->isDominatingPointLeft && hs.isDominatingPointLeft)			// this is right half segment and hs is left half segment
 		return true;
-	else if (!hs.isLeft && this->isLeft)	// this is left half segment and hs is right half segment
+	else if (!hs.isDominatingPointLeft && this->isDominatingPointLeft)	// this is left half segment and hs is right half segment
 		return false;
 
 	// Case 2b: 
 	Number m1, m2;
 
-	if (this->s.r.x == this->s.l.x)       // check for infinity slope
+	if (this->s.rightEndPoint.x == this->s.leftEndPoint.x)       // check for infinity slope
 		m1 = INT_MAX;
 	else
-		m1 = (this->s.r.y - this->s.l.y) / (this->s.r.x - this->s.l.x);       // calculate slope of this normally
+		m1 = (this->s.rightEndPoint.y - this->s.leftEndPoint.y) / (this->s.rightEndPoint.x - this->s.leftEndPoint.x);       // calculate slope of this normally
 
-	if (hs.s.r.x == hs.s.l.x)       // check for infinity slope
+	if (hs.s.rightEndPoint.x == hs.s.leftEndPoint.x)       // check for infinity slope
 		m2 = INT_MAX;
 	else
-		m2 = (hs.s.r.y - hs.s.l.y) / (hs.s.r.x - hs.s.l.x);					  // calculate slope of hs normally
+		m2 = (hs.s.rightEndPoint.y - hs.s.leftEndPoint.y) / (hs.s.rightEndPoint.x - hs.s.leftEndPoint.x);					  // calculate slope of hs normally
 
-	if (this->isLeft)                     // both are left half segments
+	if (this->isDominatingPointLeft)                     // both are left half segments
 	{
 		// so we are pretty much restricted to quadrants I and IV of the euclidean plane. Otherwise they could not both be left half segments.
 		// this means we just need to compare slopes to check for the counterclockwise rotation
@@ -114,22 +127,15 @@ bool HalfSegment2D::operator<(HalfSegment2D hs)
 		// if slope is equal, it is case 3
 	}
 
+	// Calculate Lengths
+	Number l1 = (this->s.rightEndPoint.y - this->s.leftEndPoint.y) * (this->s.rightEndPoint.y - this->s.leftEndPoint.y) + (this->s.rightEndPoint.x - this->s.leftEndPoint.x) * (this->s.rightEndPoint.x - this->s.leftEndPoint.x);
+	Number l2 = (hs.s.rightEndPoint.y - hs.s.leftEndPoint.y) * (hs.s.rightEndPoint.y - hs.s.leftEndPoint.y) + (hs.s.rightEndPoint.x - hs.s.leftEndPoint.x) * (hs.s.rightEndPoint.x - hs.s.leftEndPoint.x);
 	// Case 3:
-	if (this->s.length < hs.s.length)
-		return true;
-	else
-		return false;
+	return (l1 < l2);
 }
 
 bool HalfSegment2D::operator<=(HalfSegment2D hs)
 {
-	if (*this < hs || *this == hs)
-		return true;
-	else
-		return false;
+	return (*this < hs || *this == hs);
 }
 
-HalfSegment2D::~HalfSegment2D()
-{
-	~this->s();
-}

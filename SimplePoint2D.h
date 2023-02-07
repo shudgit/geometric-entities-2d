@@ -1,14 +1,19 @@
-#pragma once
+#ifndef SIMPLEPOINT2D_H
+#define SIMPLEPOINT2D_H
 #include "Number.h"
+#include <utility>
 struct SimplePoint2D
 {
 	Number x, y;
 	SimplePoint2D();
 	SimplePoint2D(const SimplePoint2D& p);
 	SimplePoint2D(Number x, Number y);
-	void operator=(SimplePoint2D p);
-	bool operator==(SimplePoint2D p);
-	bool operator<(SimplePoint2D p);
-	bool operator<=(SimplePoint2D p);
-	~SimplePoint2D();
+	SimplePoint2D(SimplePoint2D&& p);
+	void operator=(const SimplePoint2D p);
+	bool operator<(const SimplePoint2D p);
+	bool operator<=(const SimplePoint2D p);
+	bool operator==(const SimplePoint2D p);
+	bool operator>=(const SimplePoint2D p);
+	bool operator>(const SimplePoint2D p);
 };
+#endif

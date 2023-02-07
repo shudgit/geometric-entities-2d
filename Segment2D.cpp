@@ -7,61 +7,61 @@ Segment2D::Segment2D()		// Created default constructor so that HalfSegment2D wor
 
 Segment2D::Segment2D(const Segment2D& s)
 {
-	this->l = s.l;
-	this->r = s.r;
-	this->length = s.length;
+	this->leftEndPoint = s.leftEndPoint;
+	this->rightEndPoint = s.rightEndPoint;
 }
 
 Segment2D::Segment2D(SimplePoint2D l, SimplePoint2D r)
 {
 	if (l < r)
 	{
-		this->l = l;
-		this->r = r;
+		this->leftEndPoint = l;
+		this->rightEndPoint = r;
 	}
 	else
 	{
-		this->l = r;
-		this->r = l;
+		this->leftEndPoint = r;
+		this->rightEndPoint = l;
 	}
-	this->length = (this->r.y - this->l.y) * (this->r.y - this->l.y) + (this->r.x - this->l.x) * (this->r.x - this->l.x);		// no sqrt because not implemented
+}
+
+Segment2D::Segment2D(Segment2D&& s)
+{
+	this->leftEndPoint = std::move(s.leftEndPoint);
+	this->rightEndPoint = std::move(s.rightEndPoint);
 }
 
 void Segment2D::operator=(Segment2D s)
 {
-	this->l = s.l;
-	this->r = s.r;
+	this->leftEndPoint = s.leftEndPoint;
+	this->rightEndPoint = s.rightEndPoint;
 }
 
 bool Segment2D::operator==(Segment2D s)
 {
-	if ((*this).l == s.l && (*this).r == s.r)
-		return true;
-	else
-		return false;
+	return (this->leftEndPoint == s.leftEndPoint && (*this).rightEndPoint == s.rightEndPoint);
+	
+}
+
+bool Segment2D::operator>=(const Segment2D s)
+{
+	return (*this > s || *this == s);
+}
+
+bool Segment2D::operator>(const Segment2D s)
+{
+	return !((*this) < s);
 }
 
 bool Segment2D::operator<(Segment2D s)
 {
-	if ((*this).l < s.l)
-		return true;
-	else if ((*this).l == s.l && (*this).r < s.r)
+	if (this->leftEndPoint < s.leftEndPoint)
 		return true;
 	else
-		return false;
+		return (this->leftEndPoint == s.leftEndPoint && this->rightEndPoint < s.rightEndPoint);
 }
 
 bool Segment2D::operator<=(Segment2D s)
 {
-	if (*this < s || *this == s)
-		return true;
-	else
-		return false;
-}
-
-Segment2D::~Segment2D()
-{
-	~this->l();
-	~this->r();
-	~this->length();
+	return (*this < s || *this == s);
 }

@@ -15,5 +15,7 @@ struct HalfSegment2D
 	bool operator==(const HalfSegment2D hs);
 	bool operator>=(const HalfSegment2D hs);
 	bool operator>(const HalfSegment2D hs);
+	bool operator!=(const HalfSegment2D hs);
+	SimplePoint2D getDP();
 };
 #endif

@@ -48,10 +48,15 @@ bool SimplePoint2D::operator==(SimplePoint2D p)
 
 bool SimplePoint2D::operator>=(const SimplePoint2D p)
 {
-	return (*this > p || *this == p);
+	return !((*this) < p);
 }
 
 bool SimplePoint2D::operator>(const SimplePoint2D p)
 {
-	return !((*this) < p);
+	return !((*this) <= p);
+}
+
+bool SimplePoint2D::operator!=(const SimplePoint2D p)
+{
+	return !((*this) == p);
 }

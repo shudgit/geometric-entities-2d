@@ -14,5 +14,6 @@ struct AttributedHalfSegment2D
 	bool operator==(const AttributedHalfSegment2D ahs);
 	bool operator>=(const AttributedHalfSegment2D ahs);
 	bool operator>(const AttributedHalfSegment2D ahs);
+	bool operator!=(const AttributedHalfSegment2D ahs);
 };
 #endif

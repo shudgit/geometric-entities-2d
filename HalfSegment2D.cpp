@@ -37,12 +37,12 @@ bool HalfSegment2D::operator==(HalfSegment2D hs)
 
 bool HalfSegment2D::operator>=(const HalfSegment2D hs)
 {
-	return (*this > hs || *this == hs);
+	return !((*this) < hs);
 }
 
 bool HalfSegment2D::operator>(const HalfSegment2D hs)
 {
-	return !((*this) < hs);
+	return !((*this) <= hs);
 }
 
 bool HalfSegment2D::operator<(HalfSegment2D hs)
@@ -137,5 +137,10 @@ bool HalfSegment2D::operator<(HalfSegment2D hs)
 bool HalfSegment2D::operator<=(HalfSegment2D hs)
 {
 	return (*this < hs || *this == hs);
+}
+
+bool HalfSegment2D::operator!=(const HalfSegment2D hs)
+{
+	return !((*this) == hs);
 }
 

@@ -48,9 +48,9 @@ bool HalfSegment2D::operator>(const HalfSegment2D hs)
 bool HalfSegment2D::operator<(HalfSegment2D hs)
 {
 	// Case 1: 
-	if (this.getDP() < hs.getDP())
+	if (this->getDP() < hs.getDP())
 		return true;
-	else if (this.getDP() > hs.getDP())
+	else if (this->getDP() > hs.getDP())
 		return false;
 	// if equal, move onto case 2a
 

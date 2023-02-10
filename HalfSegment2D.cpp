@@ -48,65 +48,32 @@ bool HalfSegment2D::operator>(const HalfSegment2D hs)
 bool HalfSegment2D::operator<(HalfSegment2D hs)
 {
 	// Case 1: 
-	if (this->isDominatingPointLeft)		// this is left half segment
-	{
-		if (hs.isDominatingPointLeft)		// hs is left half segment
-		{
-			if (this->s.leftEndPoint < hs.s.leftEndPoint)									// if dominating point is less than
-				return true;
-			else if (hs.s.leftEndPoint < this->s.leftEndPoint)							// if dominating point is greater than 
-				return false;
-			// if equal, move on to next case
-		}
-		else				// hs is right half segment
-		{
-			if (this->s.leftEndPoint < hs.s.rightEndPoint)             // if dominating point is less than
-				return true;
-			else if (hs.s.rightEndPoint < this->s.leftEndPoint)        // if dominating point is greater than
-				return false;
-			// if equal, move on to next case
-		}
-	}
-	else				  // this is right half segment
-	{
-		if (hs.isDominatingPointLeft)	  // hs is left half segment
-		{
-			if (this->s.rightEndPoint < hs.s.leftEndPoint)              // if dominating point is less than
-				return true;
-			else if (hs.s.leftEndPoint < this->s.rightEndPoint)         // if dominating point is greater than
-				return false;
-			// if equal, move on to next case
-		}
-		else             // hs is right half segment
-		{
-			if (this->s.rightEndPoint < hs.s.rightEndPoint)             // if dominating point is less than
-				return true;
-			else if (hs.s.rightEndPoint < this->s.rightEndPoint)        // if dominating point is greater than
-				return false;
-			// if equal, move on to next case
-		}
-	}
+	if (this.getDP() < hs.getDP())
+		return true;
+	else if (this.getDP() > hs.getDP())
+		return false;
+	// if equal, move onto case 2a
 
 	// Case 2a:
 	if (!this->isDominatingPointLeft && hs.isDominatingPointLeft)			// this is right half segment and hs is left half segment
 		return true;
-	else if (!hs.isDominatingPointLeft && this->isDominatingPointLeft)	// this is left half segment and hs is right half segment
+	else if (!hs.isDominatingPointLeft && this->isDominatingPointLeft)		// this is left half segment and hs is right half segment
 		return false;
 
 	// Case 2b: 
 	Number m1, m2;
 
-	if (this->s.rightEndPoint.x == this->s.leftEndPoint.x)       // check for infinity slope
+	if (this->s.rightEndPoint.x == this->s.leftEndPoint.x)		// check for infinity slope
 		m1 = INT_MAX;
 	else
 		m1 = (this->s.rightEndPoint.y - this->s.leftEndPoint.y) / (this->s.rightEndPoint.x - this->s.leftEndPoint.x);       // calculate slope of this normally
 
-	if (hs.s.rightEndPoint.x == hs.s.leftEndPoint.x)       // check for infinity slope
+	if (hs.s.rightEndPoint.x == hs.s.leftEndPoint.x)		// check for infinity slope
 		m2 = INT_MAX;
 	else
 		m2 = (hs.s.rightEndPoint.y - hs.s.leftEndPoint.y) / (hs.s.rightEndPoint.x - hs.s.leftEndPoint.x);					  // calculate slope of hs normally
 
-	if (this->isDominatingPointLeft)                     // both are left half segments
+	if (this->isDominatingPointLeft)                     		// both are left half segments
 	{
 		// so we are pretty much restricted to quadrants I and IV of the euclidean plane. Otherwise they could not both be left half segments.
 		// this means we just need to compare slopes to check for the counterclockwise rotation
@@ -142,5 +109,12 @@ bool HalfSegment2D::operator<=(HalfSegment2D hs)
 bool HalfSegment2D::operator!=(const HalfSegment2D hs)
 {
 	return !((*this) == hs);
+}
+
+SimplePoint2D HalfSegment2D::getDP()
+{
+	if(this->isDominatingPointLeft)
+		return this->s.leftEndPoint;
+	return this->s.rightEndPoint;
 }
 
